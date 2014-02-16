@@ -15,9 +15,7 @@ public class SPARQL_Processor {
 	 */
 	public static void main(String[] args) {
 		queryProcessor = QueryProcessor.getInstance();
-		
-		String args2 = "asdf";
-		
+	
 		queryProcessor.processQuery(args).printResults();
 	}
 

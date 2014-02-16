@@ -13,8 +13,8 @@ public abstract class QueryProcessor {
 	}
 
 	public static QueryProcessor getInstance() {
-		// if (singletonInstance == null)
-		// singletonInstance = ... instantiate with your implementation of QueryProcessor
+		if (singletonInstance == null)
+			singletonInstance = new MyQueryProcessor();
 		return singletonInstance;
 	}
 

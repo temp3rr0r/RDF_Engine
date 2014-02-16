@@ -5,5 +5,9 @@ package ua.dbproject.optimizer;
  * optimized query plan represented as a QueryPlan object as output.
  */
 public class QueryOptimizer {
+	
+	public static String optimize(String query) {
+		return query + " optimized query plan";
+	}
 
 }
