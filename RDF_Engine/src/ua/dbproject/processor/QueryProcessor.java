@@ -9,7 +9,7 @@ public abstract class QueryProcessor {
 
 	private static QueryProcessor singletonInstance = null;
 
-	private QueryProcessor() {
+	public QueryProcessor() {
 	}
 
 	public static QueryProcessor getInstance() {
