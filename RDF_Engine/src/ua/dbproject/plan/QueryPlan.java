@@ -8,12 +8,11 @@ import ua.dbproject.operators.Operator;
  */
 public abstract class QueryPlan {
 
-	public abstract class QueryPlanNode {
+	public static abstract class QueryPlanNode {
 
 		public boolean isUnaryOperator;
 		public Operator leftOperator;
 		public Operator rightOperator;
-
 	}
 
 	public QueryPlanNode node;

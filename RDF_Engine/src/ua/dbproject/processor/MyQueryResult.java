@@ -5,7 +5,7 @@ public class MyQueryResult extends QueryResult{
 	String results = null;
 	
 	private void computeResults() {
-		this.results += " computed";
+		this.results += " -> compute results";
 	}
 	
 	public MyQueryResult(String queryResult) {
@@ -17,7 +17,7 @@ public class MyQueryResult extends QueryResult{
 	public void printResults() {
 		
 		computeResults();
-		System.out.println(results);
+		System.out.println(results + " -> print results");
 	}
 
 }
