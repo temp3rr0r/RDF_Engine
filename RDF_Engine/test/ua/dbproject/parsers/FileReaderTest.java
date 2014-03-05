@@ -12,6 +12,8 @@ import org.junit.Test;
 
 public class FileReaderTest {
 
+	private FileHandler testFileHandler;
+	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
@@ -22,6 +24,7 @@ public class FileReaderTest {
 
 	@Before
 	public void setUp() throws Exception {
+		testFileHandler = new FileHandler();
 	}
 
 	@After
@@ -30,24 +33,21 @@ public class FileReaderTest {
 
 	@Test
 	public void testReadFile() throws FileNotFoundException {
-		FileHandler testFileReader = new FileHandler();
-		testFileReader.writeFile("asdf", "asdf.txt");
-		String strRead = testFileReader.readFile("asdf.txt");
+		testFileHandler.writeFile("asdf", "asdf.txt");
+		String strRead = testFileHandler.readFile("asdf.txt");
 		assertEquals("Asserting 'asdf' string on FileReader failed", strRead, "asdf");
-		testFileReader.deleteFile("asdf.txt");
+		testFileHandler.deleteFile("asdf.txt");
 	}
 	
 	@Test (expected=FileNotFoundException.class)
 	public void testReadFileNotFound() throws FileNotFoundException {
-		FileHandler testFileReader = new FileHandler();
-		String strRead = testFileReader.readFile("doesn'tExist.txt");
+		String strRead = testFileHandler.readFile("doesn'tExist.txt");
 	}
 
 	@Test
 	public void testWriteFile() {
-		FileHandler testFileWriter = new FileHandler();
-		testFileWriter.writeFile("blabla", "test.txt");
-		testFileWriter.deleteFile("test.txt");
+		testFileHandler.writeFile("blabla", "test.txt");
+		testFileHandler.deleteFile("test.txt");
 	}
 
 }
