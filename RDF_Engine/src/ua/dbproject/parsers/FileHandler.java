@@ -8,8 +8,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/** Helps in reading/writing files */
 public class FileHandler {
 	
+	/** Locate the file in the "filePath" location and return its value as a String.
+	 * Remarks: Reads one line at a time */
 	public String readFile(String filePath) throws FileNotFoundException {
 	    BufferedReader br = new BufferedReader(new FileReader(filePath));
 	    StringBuilder sb = null;
@@ -18,6 +21,7 @@ public class FileHandler {
 	        sb = new StringBuilder();
 	        String line = br.readLine();
 
+	        //TODO: maybe add a method parameter to set the number of lines to read
 	        while (line != null) {
 	            sb.append(line);
 	            //sb.append(System.lineSeparator());

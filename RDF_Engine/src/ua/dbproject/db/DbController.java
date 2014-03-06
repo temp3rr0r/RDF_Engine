@@ -7,6 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+
+/**
+ * Concrete Class used to 
+ * */
 public class DbController {
 
 	private Connection connection = null;
@@ -18,10 +22,14 @@ public class DbController {
 	private String ip = null;
 	private Statement stmt = null;
 	
+	/** Default DbController constructor which calls the extended
+	 * public DbController(String inIp, String inPort, String inDatabaseSchemaName, String inDatabaseUserName, String inDatabasePassword)
+	 * constructor. Remarks: Local PostgreSQL instance uses different port (5433 vs the default 5432)*/
 	public DbController() {
 		this("127.0.0.1", "5433", "dbProject", "madks", "ma121284");
 	}
 	
+	/** Custom DbController constructor with the ability to set custom details i.e */
 	public DbController(String inIp, String inPort, String inDatabaseSchemaName, String inDatabaseUserName, String inDatabasePassword) {
 		port = inPort;
 		ip = inIp;
@@ -41,6 +49,7 @@ public class DbController {
 		return true;
 	}
 	
+	/** Do connect with the locally set db instance/engine */
 	public boolean connect() {		
 		if (getJDBCDriver()) {
 			try {
@@ -58,6 +67,7 @@ public class DbController {
 		return true;
 	}
 	
+	/** Execute a SQL update-type command, with no expected result set i.e INSERT, UPDATE, etc */
 	public boolean executeUpdate(String query) {
 		try {
 			if (connection != null) {
@@ -73,7 +83,7 @@ public class DbController {
 		return true;		
 	}
 	
-
+	/** Perform a SELECT string query and get the ResultSet in a ArrayList of Triplet objects */
 	public ArrayList<Triplet> getTriplets(String query) {
 		ArrayList<Triplet> tripletList = new ArrayList<Triplet>();
 		try {
@@ -93,11 +103,14 @@ public class DbController {
 		return tripletList;
 	}	
 	
+	/** Close the connection with the database instance */
 	public void close() throws SQLException {
 		connection.close();
 	}
 	
+	/** Not implemented yet. Should return the Last Value/Result set that was generated within the database engine. */
 	public String selectLastVal() {
+		//TODO: Do implement "SELECT LASTVALUE();" functionality		
 		String lastValue = "";
 		return lastValue;
 	}
