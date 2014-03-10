@@ -1,7 +1,12 @@
 package ua.dbproject.indexer;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import ua.dbproject.db.*;
 
@@ -10,6 +15,7 @@ public class TripleHashMap {
 	private long Count = 0;
 	private HashSet<Triple> mainDict = new HashSet<Triple>();	
 	private HashMap<String, HashSet<Tuple>> predicateDict = new HashMap<String, HashSet<Tuple>>();
+    private HashMap<Tuple, HashSet<String>> predicateObjectDict = new HashMap<Tuple, HashSet<String>>();
 
 	public long getCount() {
 		return Count;
@@ -47,7 +53,95 @@ public class TripleHashMap {
     private void addMainDict(String inSubject, String inPredicate, String inObject) {
         mainDict.add(new Triple(inSubject, inPredicate, inObject));
     }
-     
+    
+    private void addDictionaries(String inSubject, String inPredicate, String inObject) {
+
+		//addTripleString(subjectDict, inSubject, inPredicate, inObject);
+		//addTripleTuple(subjectObjectDict, inSubject, inObject, inPredicate);
+		//addTripleTuple(objectSubjectDict, inObject, inSubject, inPredicate);
+		//addTripleString(predicateDict, inPredicate, inSubject, inObject);
+		//addTripleTuple(subjectPredicateDict, inSubject, inPredicate, inObject);
+		//addTripleTuple(predicateSubjectDict, inPredicate, inSubject, inObject);
+		//addTripleString(objectDict, inObject, inSubject, inPredicate);
+		addTriple(predicateObjectDict, inPredicate, inObject, inSubject);
+		//addTripleTuple(objectPredicateDict, inObject, inPredicate, inSubject);
+    }   
+    
+    private void addTriple(HashMap<Tuple, HashSet<String>> dict, String pairFirst, String pairSecond, String pairValue) {
+        // if Tuple doesn't exist in dict
+        Tuple tempTuple = new Tuple(pairFirst, pairSecond);
+        if (!dict.containsKey(tempTuple)) {
+            // add a new hashset with new string
+            //dict.Add(new HashSet<Tuple<string, string>>>(indexString, new HashSet<Tuple<string,string>>(new Tuple<string, string>(pairFirst, pairSecond))));
+            //Tuple<string, string> tempTuple = new Tuple<string, string>(pairFirst, pairSecond);
+            //HashSet<Tuple<string, string>> tempHashSet = new HashSet<Tuple<string, string>>();
+        	HashSet<String> tempHashSet = new HashSet<String>();
+        	tempHashSet.add(pairValue);        	
+            dict.put(tempTuple, tempHashSet);
+        } else {
+            //HashSet<Tuple<string, string>> tempHashSet = dict.GetValueOrDefault(indexString);
+            dict.get(tempTuple).add(pairValue);
+        }
+
+    }
+    
+    public void generateDictionaries() {
+    
+    	for (Triple currentTriple : mainDict)
+    		addDictionaries(currentTriple.getSubject(), currentTriple.getObject(), currentTriple.getPredicate());
+
+    }
+    
+    public HashSet<String> getAllSubjects(String inPredicate, String inObject) {
+        HashSet<String> returnList = new HashSet<String>();
+
+        Tuple tempTuple = new Tuple(inPredicate, inObject);
+
+        if (predicateObjectDict.containsKey(tempTuple))
+            returnList = predicateObjectDict.get(tempTuple);
+        
+        return returnList;
+    }
+    
+    public void predicateObjectsToDisk(String folder) throws IOException {
+        //toDisk(predicateDict, folder);
+        // foreach HashSet<string> subject in predicateObject
+        // new file to disk\        
+        Set<Tuple> arrayOfAllKeys = predicateObjectDict.keySet();
+        	for(Tuple predicateObject : arrayOfAllKeys) {
+        		String strippedKey1 = predicateObject.getFirst().replace("<", "").replace(">", "");
+        		strippedKey1 = DictUtility.getValidPathString(strippedKey1);
+        		String strippedKey2 = predicateObject.getSecond().replace("<", "").replace(">", "");
+        		strippedKey2 = DictUtility.getValidPathString(strippedKey1);
+        		
+                String newPath = folder + "\\" + strippedKey1 + "\\";
+                File dir = new File(newPath);
+
+                if (!dir.exists())
+                	dir.mkdir();
+
+                MyBinarySerializer.Serialize(getAllSubjects(predicateObject.getFirst(), predicateObject.getSecond()),
+					newPath + strippedKey2);
+                
+        	}
+    }
+    
+
+    public HashSet<String> getAllSubjectsFromDisk(String strPredicate, String strObject)
+    {
+        //HashSet<Tuple<string, string>> getAllPredicatePairs(string predicateString);
+    	String strippedPredicate = strPredicate.replace("<", "").replace(">", "");
+        strippedPredicate = DictUtility.getValidPathString(strippedPredicate);
+        
+        String strippedObject = strObject.replace("<", "").replace(">", "");
+        strippedObject = DictUtility.getValidPathString(strippedObject);
+        String newPath = "C:\\ft" + "\\" + strippedPredicate + "\\";
+        
+        HashSet<String> dictSubjects = MyBinarySerializer.DeserializeStringHashSet(newPath + strippedObject);
+
+        return dictSubjects;
+    }
+    
 	/*
         public void predicatesToDisk(string folder)
         {

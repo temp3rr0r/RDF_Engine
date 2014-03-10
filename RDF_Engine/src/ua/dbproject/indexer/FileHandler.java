@@ -36,20 +36,6 @@ public class FileHandler {
 	            			dict.add(temp[0].replace("<", "").replace(">",  ""), temp[1].replace("<", "").replace(">", ""), temp[2].replace("<", "").replace(">",  ""));
                 		  
 	            }
-	            
-//              // if matches # or @, continue
-//
-//              string[] tempList = line.Split('.');
-//              tempList = tempList[0].Split(' '); // need to check if this would be only at the end...
-//              tempList = tempList[0].Split('\t');
-//              if (tempList.Length > 0)
-//              {
-//                  //if (dict.Count > 400000)
-//                  //    break;
-//
-//                  if ((!(tempList[0].Equals("@base") || tempList[0].Equals("@prefix") || tempList[0].Equals("#@") || tempList[0].Equals("#"))) && (tempList.Length >= 3))
-//                      dict.add(tempList[0].Replace("<", string.Empty).Replace(">", string.Empty), tempList[1].Replace("<", string.Empty).Replace(">", string.Empty), tempList[2].Replace("<", string.Empty).Replace(">", string.Empty));
-//
 	        }
 	        everything = sb.toString();
 	    } catch (IOException e) {
@@ -65,38 +51,7 @@ public class FileHandler {
 	    }
 	    return everything;
 	}
-//	  public void readTTL(String fullFilePath, TripleHashMap dict) throws FileNotFoundException {
-//          try
-//          {
-//              using (TextReader rdr = new StreamReader(fullFilePath, Encoding.UTF8, true, 65536 * 10))
-//              {
-//                  String line;
-//
-//                  while ((line = rdr.ReadLine()) != null)
-//                  {
-//                      // if matches # or @, continue
-//
-//                      string[] tempList = line.Split('.');
-//                      tempList = tempList[0].Split(' '); // need to check if this would be only at the end...
-//                      tempList = tempList[0].Split('\t');
-//                      if (tempList.Length > 0)
-//                      {
-//                          //if (dict.Count > 400000)
-//                          //    break;
-//
-//                          if ((!(tempList[0].Equals("@base") || tempList[0].Equals("@prefix") || tempList[0].Equals("#@") || tempList[0].Equals("#"))) && (tempList.Length >= 3))
-//                              dict.add(tempList[0].Replace("<", string.Empty).Replace(">", string.Empty), tempList[1].Replace("<", string.Empty).Replace(">", string.Empty), tempList[2].Replace("<", string.Empty).Replace(">", string.Empty));
-//
-//                      }
-//
-//                  }
-//              }
-//          }
-//          catch (Exception ex)
-//          {
-//             
-//          }
-//      }
+
 	/** Locate and delete a file using the local file system */
 	public void deleteFile(String fileName) {
 	   	try {	   	 
@@ -107,6 +62,34 @@ public class FileHandler {
     		e.printStackTrace();
     	}
  
+	}
+	
+	public String readFile(String filePath) throws FileNotFoundException {
+	    BufferedReader br = new BufferedReader(new FileReader(filePath));
+	    StringBuilder sb = null;
+	    String everything = null;
+	    try {
+	        sb = new StringBuilder();
+	        String line = br.readLine();
+
+	        while (line != null) {
+	            sb.append(line);
+	            //sb.append(System.lineSeparator());
+	            line = br.readLine();
+	        }
+	        everything = sb.toString();
+	    } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+	        try {
+				br.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    }
+	    return everything;
 	}
 	
 	//TODO: maybe add read/write chunk of files methods

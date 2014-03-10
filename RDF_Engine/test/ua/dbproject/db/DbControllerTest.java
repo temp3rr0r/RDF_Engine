@@ -12,8 +12,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ua.dbproject.parsers.FileHandler;
-
 public class DbControllerTest {
 	
 	private static DbController testDbController;

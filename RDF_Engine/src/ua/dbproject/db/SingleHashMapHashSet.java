@@ -36,7 +36,7 @@ public class SingleHashMapHashSet {
 	public void printValue(String predicate) {
 		HashSet<Tuple> values = getMapValue(predicate);
 		for (Tuple s: values) {
-			System.out.println(predicate + s.getSubject() + s.getObject());
+			System.out.println(predicate + s.getFirst() + s.getSecond());
 		}
 		
 //		if (values != null) {

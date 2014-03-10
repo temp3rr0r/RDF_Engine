@@ -2,21 +2,21 @@ package ua.dbproject.db;
 
 public class Tuple {
 	
-	private final String strSubject;
-	private final String strObject;
+	private final String strFirst;
+	private final String strSecond;
 	
 	/** Default constructor for a Tuple<String, String, String> */
-	public Tuple(String inSubject, String inObject) {
-		this.strSubject = inSubject;
-		this.strObject= inObject;
+	public Tuple(String first, String second) {
+		this.strFirst = first;
+		this.strSecond= second;
 	}
 
-	public String getSubject() {
-		return strSubject;
+	public String getFirst() {
+		return strFirst;
 	}
 
-	public String getObject() {
-		return strObject;
+	public String getSecond() {
+		return strSecond;
 	}
 
 }
