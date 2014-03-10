@@ -84,14 +84,14 @@ public class DbController {
 	}
 	
 	/** Perform a SELECT string query and get the ResultSet in a ArrayList of Triplet objects */
-	public ArrayList<Triplet> getTriplets(String query) {
-		ArrayList<Triplet> tripletList = new ArrayList<Triplet>();
+	public ArrayList<Triple> getTriplets(String query) {
+		ArrayList<Triple> tripletList = new ArrayList<Triple>();
 		try {
 			if (connection != null) {
 				stmt = connection.createStatement();
 				ResultSet rs = stmt.executeQuery(query);
 				while (rs.next()) {
-					tripletList.add(new Triplet(rs.getString("subject"), rs.getString("predicate"), rs.getString("object")));
+					tripletList.add(new Triple(rs.getString("subject"), rs.getString("predicate"), rs.getString("object")));
 				}
 				rs.close();
 				stmt.close();

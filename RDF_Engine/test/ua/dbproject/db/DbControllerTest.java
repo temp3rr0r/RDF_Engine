@@ -47,10 +47,10 @@ public class DbControllerTest {
 		testDbController.connect();
 		testDbController.executeUpdate("DELETE FROM triple;");
 		testDbController.executeUpdate("INSERT INTO triple (subject, predicate, object) values ('7', '8', '9');");
-		ArrayList<Triplet> testTripletList = new ArrayList<Triplet>();
-		testTripletList.add(new Triplet("7", "8", "9"));
+		ArrayList<Triple> testTripletList = new ArrayList<Triple>();
+		testTripletList.add(new Triple("7", "8", "9"));
 		
-		ArrayList<Triplet> testTripletList2 = testDbController.getTriplets("SELECT * FROM triple WHERE object = '9';");
+		ArrayList<Triple> testTripletList2 = testDbController.getTriplets("SELECT * FROM triple WHERE object = '9';");
 		
 		String tripletString1 = testTripletList.get(0).getPredicate();
 		String tripletString2 = testTripletList2.get(0).getPredicate();
