@@ -42,6 +42,7 @@ public class FileHandler {
 	    return everything;
 	}
 	
+	/** Locate and delete a file using the local file system */
 	public void deleteFile(String fileName) {
 	   	try {	   	 
     		File file = new File(fileName);
@@ -53,6 +54,10 @@ public class FileHandler {
  
 	}
 	
+	//TODO: maybe add read/write chunk of files methods
+	//TODO: maybe store the output path or use system's path variables
+	
+	/** Write to disc the String "source" as "fileName" in the current executable's path location */	
 	public void writeFile(String source, String fileName) {
 		BufferedWriter writer = null;
 	    try {
