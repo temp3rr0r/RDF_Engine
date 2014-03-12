@@ -8,10 +8,16 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/** Static class that reads TTL files and indexes them to the main tripleHashMap dictionary */
 public class FileHandler {
 	
-	/** Locate the file in the "filePath" location and return its value as a String.
-	 * Remarks: Reads one line at a time */
+	/** Locate the TTL file in the "filePath" location and return its value as a String.
+	 * Remarks: Reads one line at a time 
+	 * @param filePath
+	 * @param dict
+	 * @return String
+	 * @throws FileNotFoundException
+	 */
 	public static String readTTL(String filePath, TripleHashMap dict) throws FileNotFoundException {
 	    BufferedReader br = new BufferedReader(new FileReader(filePath));
 	    StringBuilder sb = null;
@@ -20,17 +26,15 @@ public class FileHandler {
 	        sb = new StringBuilder();
 	        String line = br.readLine();
 
-	        //TODO: maybe add a method parameter to set the number of lines to read
 	        while (line != null) {
 	            sb.append(line);
-	            //sb.append(System.lineSeparator());
 	            line = br.readLine();
 	            
 	            // if matches # or @, continue
 	            String[] temp = line.split("\t");
+	            //temp = temp[0].split(" ");
+	            //temp = temp[0].split(".");
 	            if(temp.length > 0) {
-		            //temp = temp[0].split(" ");
-		            //temp = temp[0].split(".");
 	            
 	            	if ((!(temp[0].equals("@base") || temp[0].equals("@prefix") || temp[0].equals("#@") || temp[0].equals("#"))) && (temp.length >= 3))
 	            			dict.add(temp[0].replace("<", "").replace(">",  ""), temp[1].replace("<", "").replace(">", ""), temp[2].replace("<", "").replace(">",  ""));
@@ -64,6 +68,8 @@ public class FileHandler {
  
 	}
 	
+	/** Locate the file in the "filePath" location and return its value as a String.
+	 * Remarks: Reads one line at a time */
 	public static String readFile(String filePath) throws FileNotFoundException {
 	    BufferedReader br = new BufferedReader(new FileReader(filePath));
 	    StringBuilder sb = null;
@@ -74,7 +80,6 @@ public class FileHandler {
 
 	        while (line != null) {
 	            sb.append(line);
-	            //sb.append(System.lineSeparator());
 	            line = br.readLine();
 	        }
 	        everything = sb.toString();
@@ -85,7 +90,6 @@ public class FileHandler {
 	        try {
 				br.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	    }
@@ -95,12 +99,14 @@ public class FileHandler {
 	//TODO: maybe add read/write chunk of files methods
 	//TODO: maybe store the output path or use system's path variables
 	
-	/** Write to disc the String "source" as "fileName" in the current executable's path location */	
+	/** Write to disc the String "source" as "fileName" in the current executable's path location 
+	 * @param source
+	 * @param fileName
+	 */
 	public static void writeFile(String source, String fileName) {
 		BufferedWriter writer = null;
 	    try {
 	    	//create a temporary file
-	    	//String timeLog = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 	    	File logFile = new File(fileName);
 		
 	    	// This will output the full path where the file will be written to...

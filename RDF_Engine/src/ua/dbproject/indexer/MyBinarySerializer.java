@@ -7,7 +7,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashSet;
 
+/** Serialize different dictionary objects to binary files */
 public class MyBinarySerializer {
+	
+	/** Serialize a generic serializable object to disk */
 	public static void Serialize(Object toSerialize, String filename) {
 		try {
 			FileOutputStream fileOut = new FileOutputStream(filename);
@@ -20,6 +23,7 @@ public class MyBinarySerializer {
 		 }
 	}
 
+	/** DeSerialize a HashSet<String> from disk to memory */
 	public static HashSet<String> DeserializeStringHashSet(String fileName) {
         // Declare the hashtable reference.
         HashSet<String> returnObject = null;

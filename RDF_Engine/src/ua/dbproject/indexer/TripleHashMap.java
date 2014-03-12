@@ -10,6 +10,7 @@ import java.util.Set;
 
 import ua.dbproject.db.*;
 
+/** The class that holds the Dictionary logic */
 public class TripleHashMap {
 	
 	private long Count = 0;
@@ -109,10 +110,8 @@ public class TripleHashMap {
         // new file to disk\        
         Set<Tuple> arrayOfAllKeys = predicateObjectDict.keySet();
         	for(Tuple predicateObject : arrayOfAllKeys) {
-        		String strippedKey1 = predicateObject.getFirst().replace("<", "").replace(">", "");
-        		strippedKey1 = DictUtility.getValidPathString(strippedKey1);
-        		String strippedKey2 = predicateObject.getSecond().replace("<", "").replace(">", "");
-        		strippedKey2 = DictUtility.getValidPathString(strippedKey1);
+        		String strippedKey1 = DictUtility.stripToValidPathString(predicateObject.getFirst());
+        		String strippedKey2 = DictUtility.stripToValidPathString(predicateObject.getSecond());
         		
                 String newPath = folder + "\\" + strippedKey1 + "\\";
                 File dir = new File(newPath);
@@ -125,16 +124,15 @@ public class TripleHashMap {
                 
         	}
     }
-    
+
+
 
     public HashSet<String> getAllSubjectsFromDisk(String strPredicate, String strObject)
     {
         //HashSet<Tuple<string, string>> getAllPredicatePairs(string predicateString);
-    	String strippedPredicate = strPredicate.replace("<", "").replace(">", "");
-        strippedPredicate = DictUtility.getValidPathString(strippedPredicate);
+    	String strippedPredicate = DictUtility.stripToValidPathString(strPredicate);
         
-        String strippedObject = strObject.replace("<", "").replace(">", "");
-        strippedObject = DictUtility.getValidPathString(strippedObject);
+        String strippedObject = DictUtility.stripToValidPathString(strObject);
         String newPath = "C:\\ft" + "\\" + strippedPredicate + "\\";
         
         HashSet<String> dictSubjects = MyBinarySerializer.DeserializeStringHashSet(newPath + strippedObject);
