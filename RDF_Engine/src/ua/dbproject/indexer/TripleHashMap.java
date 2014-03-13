@@ -86,10 +86,11 @@ public class TripleHashMap {
 
     }
     
-    public void generateDictionaries() {
+    public boolean generateDictionaries() {
     
     	for (Triple currentTriple : mainDict)
     		addDictionaries(currentTriple.getSubject(), currentTriple.getObject(), currentTriple.getPredicate());
+    	return true;
 
     }
     
@@ -104,25 +105,22 @@ public class TripleHashMap {
         return returnList;
     }
     
-    public void predicateObjectsToDisk(String folder) throws IOException {
-        //toDisk(predicateDict, folder);
-        // foreach HashSet<string> subject in predicateObject
-        // new file to disk\        
+    public boolean predicateObjectsToDisk(String folder){
         Set<Tuple> arrayOfAllKeys = predicateObjectDict.keySet();
-        	for(Tuple predicateObject : arrayOfAllKeys) {
-        		String strippedKey1 = DictUtility.stripToValidPathString(predicateObject.getFirst());
-        		String strippedKey2 = DictUtility.stripToValidPathString(predicateObject.getSecond());
-        		
-                String newPath = folder + "\\" + strippedKey1 + "\\";
-                File dir = new File(newPath);
+		
+		for(Tuple predicateObject : arrayOfAllKeys) {
+			String strippedKey1 = DictUtility.stripToValidPathString(predicateObject.getFirst());
+			String strippedKey2 = DictUtility.stripToValidPathString(predicateObject.getSecond());
+			
+		    String newPath = folder + strippedKey2;
+		    File dir = new File(newPath);
 
-                if (!dir.exists())
-                	dir.mkdir();
-
-                MyBinarySerializer.Serialize(getAllSubjects(predicateObject.getFirst(), predicateObject.getSecond()),
-					newPath + strippedKey2);
-                
-        	}
+		    if (!dir.exists())
+		    	if(dir.mkdirs())
+		    		MyBinarySerializer.Serialize(getAllSubjects(predicateObject.getFirst(), predicateObject.getSecond()),
+		    				newPath + "\\" + strippedKey1);
+		}
+    	return true;
     }
 
 

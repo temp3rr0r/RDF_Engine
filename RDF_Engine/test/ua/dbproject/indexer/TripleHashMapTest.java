@@ -10,7 +10,7 @@ import org.junit.Test;
 
 public class TripleHashMapTest {
 
-	@Test
+	@Test (timeout=300)
 	public void testClassCreation() {
 		TripleHashMap testHashMap = new TripleHashMap();		
 	}
@@ -24,13 +24,12 @@ public class TripleHashMapTest {
 	@Test
 	public void testWriteToDisk() throws IOException {
 		TripleHashMap testHashMap = new TripleHashMap();	
-		FileHandler.readTTL("C:\\Users\\madks_000\\Downloads\\yagoFacts.ttl", testHashMap);
-		testHashMap.generateDictionaries();
+		assertTrue(FileHandler.readTTL("C:\\Users\\madks_000\\Downloads\\yagoFacts.ttl", testHashMap));
+		assertTrue(testHashMap.generateDictionaries());
 		testHashMap.flushMainDict();
-		testHashMap.predicateObjectsToDisk("C\\ft\\");
+		testHashMap.predicateObjectsToDisk("C:\\ft\\");
 		
-		HashSet<String> hashSetResult =  testHashMap.getAllSubjectsFromDisk("<isCitizenOf>", "<United_States>");
-		
+		HashSet<String> hashSetResult =  testHashMap.getAllSubjectsFromDisk("<isCitizenOf>", "<United_States>");		
 		
 	}
 

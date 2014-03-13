@@ -1,11 +1,14 @@
 package ua.dbproject.main;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashSet;
 
 import ua.dbproject.indexer.FileHandler;
 import ua.dbproject.indexer.IndexManager;
+import ua.dbproject.indexer.MyBinarySerializer;
 import ua.dbproject.indexer.TripleHashMap;
 
 
@@ -27,9 +30,12 @@ public class TTL_Indexer {
 		FileHandler.readTTL("C:\\Users\\madks_000\\Downloads\\yagoFacts.ttl", testHashMap);
 		testHashMap.generateDictionaries();
 		testHashMap.flushMainDict();
-		testHashMap.predicateObjectsToDisk("C\\ft\\");
+		testHashMap.predicateObjectsToDisk("C:\\ft\\");
 		
-		HashSet<String> hashSetResult =  testHashMap.getAllSubjectsFromDisk("<isCitizenOf>", "<United_States>");
+
+		HashSet<String> asdf = MyBinarySerializer.DeserializeStringHashSet("Mexico");
+		
+		HashSet<String> hashSetResult =  testHashMap.getAllSubjectsFromDisk("<isCitizenOf>", "<Mexico>");
 	}
 
 }

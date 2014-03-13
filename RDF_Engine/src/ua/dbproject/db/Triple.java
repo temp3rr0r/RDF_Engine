@@ -4,9 +4,9 @@ package ua.dbproject.db;
  * Recommended to store the Triplet<String, String, String> object inside an ArrayList*/
 public class Triple {
 	
-	private final String strSubject;
-	private final String strPredicate;
-	private final String strObject;
+	private String strSubject;
+	private String strPredicate;
+	private String strObject;
 	
 	/** Default constructor for a Triplet<String, String, String> */
 	public Triple(String inSubject, String inPredicate, String inObject) {

@@ -18,42 +18,49 @@ public class FileHandler {
 	 * @return String
 	 * @throws FileNotFoundException
 	 */
-	public static String readTTL(String filePath, TripleHashMap dict) throws FileNotFoundException {
-	    BufferedReader br = new BufferedReader(new FileReader(filePath));
-	    StringBuilder sb = null;
-	    String everything = null;
-	    try {
-	        sb = new StringBuilder();
-	        String line = br.readLine();
-
-	        while (line != null) {
-	            sb.append(line);
-	            line = br.readLine();
-	            
-	            // if matches # or @, continue
-	            String[] temp = line.split("\t");
-	            //temp = temp[0].split(" ");
-	            //temp = temp[0].split(".");
-	            if(temp.length > 0) {
-	            
-	            	if ((!(temp[0].equals("@base") || temp[0].equals("@prefix") || temp[0].equals("#@") || temp[0].equals("#"))) && (temp.length >= 3))
-	            			dict.add(temp[0].replace("<", "").replace(">",  ""), temp[1].replace("<", "").replace(">", ""), temp[2].replace("<", "").replace(">",  ""));
-                		  
-	            }
-	        }
-	        everything = sb.toString();
-	    } catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-	        try {
-				br.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+	public static boolean readTTL(String filePath, TripleHashMap dict) throws FileNotFoundException {
+		if(FileHandler.fileExists(filePath)) {
+		    BufferedReader br = new BufferedReader(new FileReader(filePath));
+		    StringBuilder sb = null;
+		    try {	    	
+		        sb = new StringBuilder();
+		        String line = br.readLine();
+	
+		        while (line != null) {
+		            sb.append(line);
+		            line = br.readLine();
+		            
+		            if (dict.getCount() > 4000000)
+		            	break;
+		            
+		            String[] temp = line.split("\t");
+		            //temp = temp[0].split(" ");
+		            //temp = temp[0].split(".");
+		            if(temp.length > 0) {	            	
+		            
+		            	if (!DictUtility.isTTLPrefix(temp[0]) && (temp.length >= 3)) { // if matches # or @, continue
+	            			dict.add(DictUtility.removeEqualityChars(temp[0]), DictUtility.removeEqualityChars(temp[1]),
+	        					DictUtility.removeDot(DictUtility.removeEqualityChars(temp[2])));
+		            	}
+	                		  
+		            }
+		        }
+		        //everything = sb.toString();
+		    } catch (IOException e) {
 				e.printStackTrace();
-			}
-	    }
-	    return everything;
+				return false;
+			} finally {
+		        try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+					return false;
+				}
+		    }
+		    return true;
+		}
+		else
+			return false;
 	}
 
 	/** Locate and delete a file using the local file system */
@@ -66,6 +73,16 @@ public class FileHandler {
     		e.printStackTrace();
     	}
  
+	}
+	
+	/** Check if file exists on disk */
+	private static boolean fileExists(String fileName) {
+		
+		File f = new File(fileName);
+		if(f.exists())
+			return true;
+		else
+			return false;
 	}
 	
 	/** Locate the file in the "filePath" location and return its value as a String.

@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import ua.dbproject.indexer.DictUtility;
 import ua.dbproject.indexer.TripleHashMap;
 
 /** The TTL_Parser takes care of parsing TTL files that hold the RDF input data. */
@@ -34,8 +35,8 @@ public class TTL_Parser {
 	            	if (dict.getCount() > 4000)
 	            		break;
 	            	
-	            	if ((!(temp[0].equals("@base") || temp[0].equals("@prefix") || temp[0].equals("#@") || temp[0].equals("#"))) && (temp.length >= 3))
-	            			dict.add(temp[0].replace("<", "").replace(">",  ""), temp[1].replace("<", "").replace(">", ""), temp[2].replace("<", "").replace(">",  ""));
+	            	if (!(DictUtility.isTTLPrefix(temp[0])))
+	            		dict.add(temp[0].replace("<", "").replace(">",  ""), temp[1].replace("<", "").replace(">", ""), temp[2].replace("<", "").replace(">",  ""));
                 		  
 	            }
 	        }
